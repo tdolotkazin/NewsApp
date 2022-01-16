@@ -10,3 +10,16 @@ extension Date {
     return dateFormatter.date(from: dateString)
   }
 }
+
+extension Date {
+  static func toString(_ date: Date?) -> String? {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "MMM d, yyyy"
+    dateFormatter.timeZone = .current
+    if let date = date {
+      return dateFormatter.string(from: date)
+    } else {
+      return nil
+    }
+  }
+}

@@ -15,6 +15,17 @@ class NewsCellViewModel {
     self.url = news.url
     self.image = news.image
     self.description = news.description
-    self.publishedAt = "01.01.2022"
+    self.publishedAt = Date.toString(news.publishedAt) ?? "No date"
+  }
+
+  private func formatDate(date: Date?) -> String? {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "MMM d, yyyy"
+    dateFormatter.timeZone = .current
+    if let date = date {
+      return dateFormatter.string(from: date)
+    } else {
+      return nil
+    }
   }
 }

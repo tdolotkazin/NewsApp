@@ -1,4 +1,5 @@
 import UIKit
+import WebKit
 
 class NewsViewController: UITableViewController {
 
@@ -8,6 +9,13 @@ class NewsViewController: UITableViewController {
     super.viewDidLoad()
     newsViewModel.loadingCompletion = { [weak self] in
       self?.updateUI()
+    }
+  }
+
+  func updateUI() {
+    DispatchQueue.main.async {
+      self.tableView.reloadData()
+      print("Updating UI")
     }
   }
 }
@@ -44,12 +52,19 @@ extension NewsViewController {
     }
     return UITableViewCell()
   }
+}
 
-  func updateUI() {
-    DispatchQueue.main.async {
-      self.tableView.reloadData()
-      print("Updating UI")
+extension NewsViewController {
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    var url: URL
+    if indexPath.section == 0 {
+      url = newsViewModel.getNews(for: 0, featured: true).url!
+    } else {
+      url = newsViewModel.getNews(for: indexPath.row, featured: false).url!
     }
+    let webViewController = WebViewController()
+    webViewController.url = url
+    present(webViewController, animated: true, completion: nil)
   }
 }
 

@@ -13,8 +13,9 @@ class FeaturedNewsCell: UITableViewCell {
 
   func update(with cellViewModel: NewsCellViewModel) {
     self.newsImage.image = UIImage(data: cellViewModel.image!)
+    newsImage.contentMode = .scaleToFill
+    newsImage.clipsToBounds = true
     self.titleLabel.text = cellViewModel.title
     self.dateLabel.text = cellViewModel.publishedAt
-
   }
 }
