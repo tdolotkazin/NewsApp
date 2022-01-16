@@ -9,7 +9,7 @@ class APIManager {
 
   typealias CompletionHandler = (Data?, URLResponse?, Error?) -> Void
   private var apiKey: String?
-  lazy private var session = URLSession(configuration: .default)
+  lazy private var session = URLSession.shared
   weak var delegate: APIManagerDelegate?
 
   init() {
