@@ -15,7 +15,6 @@ class NewsViewController: UITableViewController {
   func updateUI() {
     DispatchQueue.main.async {
       self.tableView.reloadData()
-      print("Updating UI")
     }
   }
 }
