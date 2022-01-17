@@ -14,6 +14,9 @@ class NewsViewModel {
   }
 
   func getNews(for index: Int, featured: Bool) -> NewsCellViewModel {
+    if index > news.count - 10 {
+      newsRepository.fetchNextPage()
+    }
     let news = featured ? featuredNews! : news[index]
     let cellViewModel = NewsCellViewModel(news: news)
     return cellViewModel
@@ -25,10 +28,12 @@ class NewsViewModel {
 }
 
 extension NewsViewModel: NewsRepositoryDelegate {
-  func allNewsAreFetched(regular: [News], featured: News) {
+  func allNewsAreFetched(regular: [News], featured: News?) {
     newsAreLoading = false
     self.news = regular
-    self.featuredNews = featured
+    if let featured = featured {
+      self.featuredNews = featured
+    }
     loadingCompletion?()
   }
 }

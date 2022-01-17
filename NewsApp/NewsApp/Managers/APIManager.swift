@@ -2,7 +2,7 @@ import Foundation
 
 protocol APIManagerDelegate: AnyObject {
   func featuredNewsParsed(news: News)
-  func regularNewsParsed(news:[News])
+  func regularNewsParsed(news:[News], nextPage: Bool)
 }
 
 class APIManager {
@@ -11,6 +11,7 @@ class APIManager {
   private var apiKey: String?
   lazy private var session = URLSession.shared
   weak var delegate: APIManagerDelegate?
+  private var currentPage: Int = 1
 
   init() {
     apiKey = getAPIKey()
@@ -37,9 +38,11 @@ class APIManager {
     }
   }
 
-  func fetchRegularNews() {
+  func fetchRegularNews(nextPage: Bool = false) {
+    if nextPage { currentPage += 1 }
     guard let initialUrl = URL(string: "https://newsapi.org/v2/everything?domains=techcrunch.com&sortBy=popularity") else { return }
-    let url = addQuery(item: URLQueryItem(name: "pageSize", value: "20"), to: initialUrl)
+    var url = addQuery(item: URLQueryItem(name: "pageSize", value: "20"), to: initialUrl)
+    url = addQuery(item: URLQueryItem(name: "page", value: String(currentPage)), to: url)
     executeAPIRequest(url: url) { data, response, error in
       guard let data = data,
             let newsData = self.parseJSON(from: data)?.articles else { return }
@@ -47,7 +50,7 @@ class APIManager {
       for singleNewsData in newsData {
         news.append(News(newsData: singleNewsData))
       }
-      self.delegate?.regularNewsParsed(news: news)
+      self.delegate?.regularNewsParsed(news: news, nextPage: nextPage)
     }
   }
 

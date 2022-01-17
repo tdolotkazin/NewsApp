@@ -1,7 +1,7 @@
 import Foundation
 
 protocol NewsRepositoryDelegate: AnyObject {
-  func allNewsAreFetched(regular: [News], featured: News)
+  func allNewsAreFetched(regular: [News], featured: News?)
 }
 
 class NewsRepository {
@@ -21,11 +21,19 @@ class NewsRepository {
     apiManager.fetchFeaturedNews()
     apiManager.fetchRegularNews()
   }
+
+  func fetchNextPage() {
+    apiManager.fetchRegularNews(nextPage: true)
+  }
 }
 
 extension NewsRepository: APIManagerDelegate {
-  func regularNewsParsed(news: [News]) {
+  func regularNewsParsed(news: [News], nextPage:Bool) {
     self.news.append(contentsOf: news)
+    if nextPage {
+      delegate?.allNewsAreFetched(regular: self.news, featured: nil)
+      return
+    }
     if newsFetchedFlag {
       delegate?.allNewsAreFetched(regular: self.news, featured: featuredNews!)
     } else {
