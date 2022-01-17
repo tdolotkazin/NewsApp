@@ -5,10 +5,11 @@ protocol NewsRepositoryDelegate: AnyObject {
 }
 
 class NewsRepository {
+
   weak var delegate: NewsRepositoryDelegate?
   private var news: [News] = []
   private var featuredNews: News?
-  let apiManager: APIManager
+  private let apiManager: APIManager
   private var newsFetchedFlag: Bool = false
 
   init(apiManager: APIManager) {

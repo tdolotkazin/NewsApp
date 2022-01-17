@@ -11,9 +11,16 @@ class NewsCell: UITableViewCell {
   override func awakeFromNib() {
     super.awakeFromNib()
     selectionStyle = .none
+    createRoundedCorners()
+    createShadow()
+  }
+
+  func createRoundedCorners() {
     containerView.layer.cornerRadius = 8
     containerView.layer.masksToBounds = true
+  }
 
+  func createShadow() {
     backgroundColor = .clear
     layer.masksToBounds = false
     layer.shadowOffset = CGSize(width: 0, height: 0)

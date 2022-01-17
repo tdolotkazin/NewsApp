@@ -8,9 +8,11 @@ protocol APIManagerDelegate: AnyObject {
 class APIManager {
 
   typealias CompletionHandler = (Data?, URLResponse?, Error?) -> Void
+
+  weak var delegate: APIManagerDelegate?
+
   private var apiKey: String?
   lazy private var session = URLSession.shared
-  weak var delegate: APIManagerDelegate?
   private var currentPage: Int = 1
 
   init() {

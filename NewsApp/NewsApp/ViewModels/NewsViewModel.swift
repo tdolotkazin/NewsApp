@@ -3,11 +3,11 @@ import UIKit
 
 class NewsViewModel {
 
+  var newsAreLoading: Bool = true
+  var loadingCompletion: (() -> ())?
   private var newsRepository = NewsRepository(apiManager: APIManager())
   private var news: [News] = []
   private var featuredNews: News?
-  var newsAreLoading: Bool = true
-  var loadingCompletion: (() -> ())?
 
   init() {
     newsRepository.delegate = self
