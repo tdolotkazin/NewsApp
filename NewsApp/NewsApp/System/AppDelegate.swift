@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  NewsApp
-//
-//  Created by Timur Dolotkazin on 16.01.2022.
-//
-
 import UIKit
 
 @main
